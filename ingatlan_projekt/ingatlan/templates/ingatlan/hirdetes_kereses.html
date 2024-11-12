@@ -1,0 +1,17 @@
+{% extends "ingatlan/base.html" %}
+
+{% block title %}Keresési eredmények{% endblock %}
+
+{% block content %}
+<h1>Keresési eredmények</h1>
+<form method="GET" action="{% url 'hirdetes_kereses' %}">
+    <input type="text" name="q" placeholder="Keresés...">
+    <button type="submit">Keresés</button>
+</form>
+
+<ul>
+{% for hirdetes in hirdetesek %}
+    <li>{{ hirdetes.cim }} - {{ hirdetes.ar }} Ft</li>
+{% endfor %}
+</ul>
+{% endblock %}

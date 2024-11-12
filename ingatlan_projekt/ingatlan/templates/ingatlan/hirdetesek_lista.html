@@ -1,0 +1,16 @@
+{% extends "ingatlan/base.html" %}
+
+{% block title %}Hirdetések{% endblock %}
+
+{% block content %}
+<h1>Hirdetések</h1>
+<ul class="list-group">
+    {% for hirdetes in hirdetesek %}
+        <li class="list-group-item">
+            <h2>{{ hirdetes.cim }}</h2>
+            <p>{{ hirdetes.leiras }}</p>
+            <p>{{ hirdetes.ar }} Ft</p>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
