@@ -1,0 +1,110 @@
+Többnyelvűség:
+A react-i18next csomag segíthet a többnyelvű támogatás megvalósításában a React alkalmazásodban. Nézzük, hogyan tudjuk integrálni és beállítani a többnyelvűséget lépésről lépésre.
+
+1. Lépés: Telepítés
+Először telepítsd a szükséges csomagokat:
+
+bash
+npm install i18next react-i18next i18next-http-backend i18next-browser-languagedetector
+2. Lépés: Konfiguráció
+Hozd létre a nyelvi fájlokat és a konfigurációt. Például hozz létre egy locales mappát, és abban nyelvi fájlokat az egyes nyelvekhez.
+
+locales/en/translation.json
+
+json
+{
+  "welcome": "Welcome to the real estate site!",
+  "ads": "Advertisements"
+}
+locales/hu/translation.json
+
+json
+{
+  "welcome": "Üdvözöljük az ingatlan oldalon!",
+  "ads": "Hirdetések"
+}
+3. Lépés: i18next Beállítása
+Hozz létre egy i18n.js fájlt a projekt gyökérkönyvtárában, ahol konfigurálod az i18next-et.
+
+src/i18n.js
+
+javascript
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import HttpBackend from 'i18next-http-backend';
+import LanguageDetector from 'i18next-browser-languagedetector';
+
+i18n
+  .use(HttpBackend)
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    fallbackLng: 'en',
+    debug: true,
+    backend: {
+      loadPath: '/locales/{{lng}}/translation.json',
+    },
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
+export default i18n;
+4. Lépés: Integráció az Alkalmazásba
+Az App.js fájlban importáld az i18n beállításokat.
+
+src/App.js
+
+javascript
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import Kezdolap from './components/Kezdolap';
+import Hirdetesek from './components/Hirdetesek';
+import Regisztracio from './components/Regisztracio';
+import './i18n';
+
+function App() {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
+  return (
+    <Router>
+      <div>
+        <button onClick={() => changeLanguage('en')}>EN</button>
+        <button onClick={() => changeLanguage('hu')}>HU</button>
+      </div>
+      <Switch>
+        <Route path="/" exact component={Kezdolap} />
+        <Route path="/hirdetesek" component={Hirdetesek} />
+        <Route path="/regisztracio" component={Regisztracio} />
+      </Switch>
+    </Router>
+  );
+}
+
+export default App;
+5. Lépés: Fordítások Használata a Komponensekben
+Használd a t függvényt a szövegek fordításához az egyes komponensekben.
+
+components/Kezdolap.js
+
+javascript
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+const Kezdolap = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div>
+      <h1>{t('welcome')}</h1>
+    </div>
+  );
+};
+
+export default Kezdolap;
+Ezekkel a lépésekkel beállíthatod a többnyelvű támogatást a React alkalmazásodban a react-i18next segítségével. Ez lehetővé teszi, hogy könnyedén váltogass a nyelvek között, és fordított szövegeket jeleníts meg az alkalmazásod különböző részein.
