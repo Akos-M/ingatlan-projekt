@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import HirdetesekLista from './HirdetesekLista';
 
-function Hirdetesek() {
+const Hirdetesek() => {
   const [hirdetesek, setHirdetesek] = useState([]);
 
   useEffect(() => {
@@ -14,19 +15,8 @@ function Hirdetesek() {
       });
   }, []);
 
-  return (
-    <div>
-      <h1>Hirdetések</h1>
-      <ul>
-        {hirdetesek.map(hirdetes => (
-          <li key={hirdetes.id}>
-            <h2>{hirdetes.cim}</h2>
-            <p>{hirdetes.leiras}</p>
-            <p>{hirdetes.ar} Ft</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+  return ( <HirdetesekLista hirdetesek={hirdetesek} /> 
+    
   );
 }
 
